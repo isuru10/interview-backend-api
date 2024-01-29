@@ -31,13 +31,13 @@ public class EmployeeHttpController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/{employee-id}", consumes = "application/json")
     public void updateEmployee(@PathVariable("employee-id") Integer employeeId, @RequestBody @Validated EmployeeDto employeeReqDto){
-        employeeReqDto.setId(employeeId);
+        employeeReqDto.setEmpId(employeeId);
         employeeService.updateEmployee(employeeReqDto);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/status/{employee-id}", consumes = "application/json")
     public void updateEmployeeActiveStatus(@PathVariable("employee-id") Integer employeeId, @RequestBody @Validated EmployeeDto employeeReqDto){
-        employeeReqDto.setId(employeeId);
+        employeeReqDto.setEmpId(employeeId);
         employeeService.updateActiveStatus(employeeReqDto);
     }
 

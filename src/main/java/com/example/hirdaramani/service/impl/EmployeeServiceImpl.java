@@ -44,13 +44,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        employeeDto.setId(employee.getEmpId());
+        employeeDto.setEmpId(employee.getEmpId());
         return employeeDto;
     }
 
     @Override
     public void updateEmployee(EmployeeDto employeeDto) {
-        Employee currEmployee = employeeRepository.findById(employeeDto.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found for the given Id" ));
+        Employee currEmployee = employeeRepository.findById(employeeDto.getEmpId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found for the given Id" ));
         try {
             currEmployee.setIdNumber(employeeDto.getIdNumber());
             currEmployee.setContactNumber(employeeDto.getContactNumber());
@@ -63,9 +63,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void updateActiveStatus(EmployeeDto employeeDto) {
-        Employee currEmployee = employeeRepository.findById(employeeDto.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found for the given Id" ));
+        Employee currEmployee = employeeRepository.findById(employeeDto.getEmpId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found for the given Id" ));
         try {
-            employeeRepository.updateActiveStatus(employeeDto.getActiveStatus(), employeeDto.getId());
+            employeeRepository.updateActiveStatus(employeeDto.getActiveStatus(), employeeDto.getEmpId());
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -89,7 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             activeEmployees = employeeRepository.findActiveEmployees();
             if(activeEmployees.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No any active employees available");
+                return new ArrayList<>();
             }
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
